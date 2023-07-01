@@ -1,0 +1,136 @@
+xkb_keymap {
+
+
+//Layer   Bindings                      Modifier
+//1       h, j, k, l, Super             None
+//2       H, J, K, L, Super             Shift
+//3       Left, Down, Up, Right, grave  Mod3
+//4       Left, Down, Up, Right, tilde  Shift+Mod3
+
+xkb_keycodes { include "evdev+aliases(qwerty)" };
+
+xkb_types { 
+    include "complete"
+
+    type "VIMKEYS" {
+        modifiers= Shift+Mod3+Alt;
+        map[Shift] = Level2;
+        map[Shift+Alt] = Level2;
+        map[Mod3] = Level3;
+        map[Shift+Mod3] = Level4; 
+        map[Shift+Mod3+Alt] = Level4;
+        level_name[Level1]= "Base";
+        level_name[Level2]= "Shift";
+        level_name[Level3]= "Vim+Mod3";
+        level_name[Level4]= "Vim+Shift+Mod3";
+    };
+};
+
+
+xkb_compatibility {
+    include "complete"
+
+    interpret XF86DOS {
+        action= SetMods(modifiers=Mod3); // Set XF86DOS as the stand-in for Mod3
+    };
+    
+};
+
+
+xkb_symbols {
+    include "pc+us+inet(evdev)"
+
+    key <CAPS> { // Bind Caps_Lock to Escape
+        type= "ONE_LEVEL",
+        [ Escape ]
+    };
+
+//    key <PRSC> {
+//        type= "ONE_LEVEL",
+//        [ Caps_Lock ]
+//    };
+
+    key <LWIN> { // Bind LWIN to the Mod3 stand-in
+        type= "ONE_LEVEL",
+        [ XF86DOS ]
+    };
+
+//    key <ESC> { // Bind Escape key to Mod3 for using special keys
+//        type= "VIMKEYS",
+//        symbols[Group1]= [ Mod3, Mod3, Mod3, Mod3 ]
+//        //[]
+//    };
+
+
+// Vimkey mappings:
+
+//    key <LWIN> { // Bind left Win key to Mod3 for using special keys
+//        type= "VIMKEYS",
+//        symbols[Group1]= [ Mod3, Mod3, Mod3, Mod3 ]
+//    };
+
+    key <TLDE> { // Bind tilde to Super
+        // type= "VIMKEYS",
+        type= "ONE_LEVEL",
+        [ Super_L ]
+        // symbols[Group1]= [ Super_L, Super_L, Super_L, Super_L ]
+        // symbols[Group1]= [ Super_L, Super_L, grave, asciitilde ]
+    };
+
+    key <ESC> { // Esc -> Grave/Tilde
+        type= "VIMKEYS",
+        symbols[Group1]= [ grave, asciitilde, grave, asciitilde ]
+    };
+
+    key <AC06> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ h, H, Left, Left ]
+    };
+
+    key <AC07> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ j, J, Down, Down ]
+    };
+    
+    key <AC08> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ k, K, Up, Up ]
+    };
+
+    key <AC09> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ l, L, Right, Right ]
+    };
+
+// Home, PgDown, PgUp, End to Mod3+ U, I, O, P
+
+    key <AD07> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ u, U, Home, Home ]
+    };
+
+    key <AD08> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ i, I, Next, Next ]
+    };
+
+    key <AD09> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ o, O, Prior, Prior ]
+    };
+
+    key <AD10> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ p, P, End, End ]
+    };
+
+    key <BKSP> {
+        type= "VIMKEYS",
+        symbols[Group1]= [ Backspace, Backspace, Delete, Delete ]
+    };
+
+};
+    
+xkb_geometry { include "pc(pc105)" };
+
+};

@@ -1,0 +1,34 @@
+# A config file for bash readline
+
+# Show which editing mode (emacs or vi) the terminal prompt is in:
+set show-mode-in-prompt on
+
+set keymap vi-insert
+"\ee": emacs-editing-mode
+#"jk": vi-movement-mode
+#"kj": vi-movement-mode
+"": clear-screen
+
+set keymap vi-command
+"\ee": emacs-editing-mode
+
+set vi-cmd-mode-string "\001\e[0;31m\002\>\001\e[0m\002"
+set vi-ins-mode-string "\001\e[0;31m\002\'\001\e[0m\002"
+set emacs-mode-string ""
+
+
+set keymap emacs
+# Alt-e to toggle modes
+"\ee": vi-editing-mode
+# Quickly switch between editing modes while typing:
+# "jk": "\eejk"
+# "kj": "\eejk"
+# set keyseq-timeout 20
+
+
+#set colored-completion-prefix On
+set colored-stats On
+#set completion-ignore-case On
+#set completion-map-case On
+set visible-stats On
+set bell-style none
