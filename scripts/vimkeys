@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Load custom XKB Vimkeys keymap:
+xkbcomp ~/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb $DISPLAY &> /dev/null

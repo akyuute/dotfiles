@@ -1,0 +1,16 @@
+#!/bin/bash
+
+
+project=$1
+cd $HOME/code/git/$project
+
+tmux new -s dev \
+    "vim $project; $SHELL" \; \
+splitw -h \; \
+select-pane -t 0 \; \
+new-window \
+    'git status; $SHELL' \; \
+splitw -h \
+    'git diff; $SHELL' \; \
+select-window -t 1
+
