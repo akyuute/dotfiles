@@ -1,4 +1,4 @@
-# Sam's i3 config file
+# i3 config file
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -13,20 +13,31 @@ set $brightness_max             100%
 set $brightness_step            1%
 set $brightness_micro_step      100
 set $browser                    firefox
-set $compositor                 compton -f
+set $browser_class              firefox
+set $browser_ws                 $ws2
+#set $compositor                 picom -f
+set $compositor                 compton -i=30
 set $menu                       rofi -show drun
 #set $menu                       dmenu_run -f
 set $dtable                     darktable
+set $dtable_class               darktable
+set $dtable_ws                  $ws5
 set $fm                         dolphin
+# set $fm                         pcmanfm
+# set $fm_class                   Pcmanfm
 set $ide                        subl
+set $ide_ws                     $ws3
 set $pedit                      gimp
+set $pedit_class                gimp
+set $pedit_ws                   $ws6
 set $term                       terminator
+set $term_class                 Terminator
 
 ### Paths ###
 set $xkbmap                     ~/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  ~/Pictures/screenshots/
 # set $wallpaper                  ~/Pictures/colors/black.png
-set $wallpaper                  ~/Pictures/wallpapers/big_strangelove.jpg
+set $wallpaper                  ~/Pictures/wallpapers/hieda_no_akyuu_touhou_drawn_by_a_maru.png
 
 #set $dmenufont pango:Source Code Pro Bold 9
 #set $dmenufont    "/usr/share/fonts/adobe-source-code-pro/SourceCodePro-Bold.otf"
@@ -34,6 +45,10 @@ set $wallpaper                  ~/Pictures/wallpapers/big_strangelove.jpg
 
 ### Colors ###
 set $red #b00000 
+set $purple #692b69
+# set $purple #aa88dd
+set $pink #dd6699
+set $violet #ab22ab
 #set $window_active_color $red $red $red $red
 
 ### Aliases ###
@@ -58,7 +73,7 @@ exec --no-startup-id brightnessctl s 5%
 exec_always --no-startup-id $bg_renderer $wallpaper 
 
 # Window Compositor
-#exec_always --no-startup-id $compositor
+exec_always --no-startup-id $compositor
 
 # Disable screen blanking
 exec_always --no-startup-id exec xset -dpms
@@ -104,10 +119,6 @@ bindsym $alt+Ctrl+t $run $term
 # and focusing the window:
 bindsym $mod+Shift+Return $run $term ; workspace $ws1
 
-# Launch 1Password
-bindsym $mod+backslash $run 1password
-bindsym $mod+Shift+backslash $run 1password; workspace $ws6
-
 # Launch web browser, leaving window unfocused:
 bindsym $mod+w $run $browser
 # and focusing the window:
@@ -150,16 +161,16 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # Move focused window
-bindsym $mod+Shift+h move left
-bindsym $mod+Shift+j move down
-bindsym $mod+Shift+k move up
-bindsym $mod+Shift+l move right
+bindsym $mod+Shift+h move left 1 px
+bindsym $mod+Shift+j move down 1 px
+bindsym $mod+Shift+k move up 1 px
+bindsym $mod+Shift+l move right 1 px
 
 # Alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
-bindsym $mod+Shift+Right move right
+bindsym $mod+Shift+Left move left 1 px
+bindsym $mod+Shift+Down move down 1 px
+bindsym $mod+Shift+Up move up 1 px
+bindsym $mod+Shift+Right move right 1 px
 
 # Toggle split orientation
 #bindsym $mod+t split toggle
@@ -218,7 +229,8 @@ default_border pixel 1
 #client.focused_inactive     #353439 #9FEE00 #7B9F35
 
 #client.focused          #b00000 #b00000 #b00000 #b00000
-client.focused          $red $red $red $red
+# client.focused          $red $red $red $red
+client.focused          $pink $pink $pink $pink 
 #client.focused          #3F8AC2 #096BAA #00BAA7 #00DA8E
 client.focused_inactive #333333 #5F676A #ffffff #484e50
 client.unfocused        #333333 #424242 #888888 #292d2e 
@@ -242,6 +254,8 @@ font pango:Source Code Pro Bold 10
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 ##############$run xss-lock --transfer-sleep-lock -- i3lock --nofork###############
+
+
 
 
 # Define names for default workspaces for which we configure key bindings later on.
@@ -311,10 +325,10 @@ bindsym $mod+$alt+Control+Escape exit
 
 
 # Resize windows
-bindsym $mod+y resize shrink width 10 px or 10 ppt
-bindsym $mod+i resize grow height 10 px or 10 ppt
-bindsym $mod+u resize shrink height 10 px or 10 ppt
-bindsym $mod+o resize grow width 10 px or 10 ppt
+bindsym $mod+y resize shrink width 1 px or 1 ppt
+bindsym $mod+i resize grow height 1 px or 1 ppt
+bindsym $mod+u resize shrink height 1 px or 1 ppt
+bindsym $mod+o resize grow width 1 px or 1 ppt
 
 # Resize window (you can also use the mouse for that)
 mode "resize" {
@@ -324,16 +338,16 @@ mode "resize" {
     # Pressing right will grow the window’s width.
     # Pressing up will shrink the window’s height.
     # Pressing down will grow the window’s height.
-    bindsym h resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym j resize shrink height 10 px or 10 ppt
-    bindsym l resize grow width 10 px or 10 ppt
+    bindsym h resize shrink width 1 px or 1 ppt
+    bindsym k resize grow height 1 px or 1 ppt
+    bindsym j resize shrink height 1 px or 1 ppt
+    bindsym l resize grow width 1 px or 1 ppt
 
     # Same bindings, but for the arrow keys
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize shrink height 10 px or 10 ppt
-    bindsym Up resize grow height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
+    bindsym Left resize shrink width 1 px or 1 ppt
+    bindsym Down resize shrink height 1 px or 1 ppt
+    bindsym Up resize grow height 1 px or 1 ppt
+    bindsym Right resize grow width 1 px or 1 ppt
 
     # Back to normal: Enter or Escape or $mod+r
     bindsym Return mode "default"
@@ -341,15 +355,17 @@ mode "resize" {
     bindsym $mod+r mode "default"
 }
 
-#bindsym $mod+r mode "resize"
+bindsym $mod+r mode "resize"
+
+
 
 
 ############### Context Menus #################
 
 # Power menu
 set $powermenu " [S]uspend|[H]ibernate|[R]eboot|[P]oweroff"
-bindsym $mod+shift+Escape mode $powermenu
-# bindsym $mod+shift+Escape exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
+#bindsym $mod+shift+Escape mode $powermenu
+bindsym $mod+shift+Escape exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 mode $powermenu {
     bindsym p $run systemctl poweroff
@@ -363,31 +379,38 @@ mode $powermenu {
 }
 
 
-# Use maim to take screenshots from an interactive mode.
+# Use maim or scrot to take screenshots from an interactive mode.
 set $screenshotmenu ""
 bindsym $mod+shift+s mode $screenshotmenu
 
+set $get_window_id xprop -root | grep -m 1 _NET_ACTIVE_WINDOW | sed -rn 's/.* (.*)$/\1/p'
+set $get_datetime date +'%Y-%m-%d_%H-%M-%S'
+#set $cmdp1 maim -m 10 -i
+
 mode $screenshotmenu {
-
-    set $get_datetime date +'%Y-%m-%d_%H-%M-%S'
-    # set $get_filename $scrot_dir/date +'%Y-%m-%d_%H-%M-%S'.png
-    #set $cmdp1 maim -m 10 -i
-
+    # With maim...
     # Fullscreen shot:
     bindsym Return $run maim -m 10 $scrot_dir/$($get_datetime).png; mode "default"
 
     # Current focused container:
-    set $get_window_id xprop -root | grep -m 1 _NET_ACTIVE_WINDOW | sed -rn 's/.* (.*)$/\1/p'
-    bindsym space $run maim -m 10 -i $(( $($get_window_id) ))\
-        $scrot_dir/$($get_datetime); mode "default"
-
     # "$((16#<hex>))" converts the window ID to decimal.
+    #bindsym space exec maim -m 10 -i $(( $(xprop -root | grep -m 1 _NET_ACTIVE_WINDOW | sed -rn 's/.* (.*)$/\1/p') )) $scrot_dir/$(date +'%Y-%m-%d_%H-%M-%S').png; mode "default"
+    bindsym space $run maim -m 10 -i $(( $($get_window_id) )) $scrot_dir/$($get_datetime).png; mode "default"
+
     ##bindsym space $run $cmdp1 $(( $($get_window_id) )) $scrot_dir/test.png; mode "default"
     ##bindsym space $run maim -m 10 -i $(( $($cmd) )) $get_filename; mode "default"
     ##bindsym space $run bash maim -m 10 -i $(( $($get_window_id) )) $scrot_dir/test.png; mode "default"
 
-    # Rectangular selection:
+    # Interactive selection:
     bindsym --release l $run maim -sum 10 $scrot_dir/$($get_datetime).png; mode "default"
+
+    # With scrot...
+    # Fullscreen shot:
+    #bindsym Return $run scrot -zq90 '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
+    # Capture focused container:
+    #bindsym space $run scrot -zuq90 '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
+    # Interactive rectangle:
+    #bindsym --release l exec scrot -zs -q100  '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
 
     # Exit mode:
     bindsym Escape mode "default"
@@ -395,10 +418,13 @@ mode $screenshotmenu {
 
 
 ############### i3bar #################
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
 bar {
     strip_workspace_numbers yes
     #font pango:Source Code Pro Bold 9
-    font pango:Source Code Pro Bold 12
+    font pango:Source Code Pro Bold 10
     #font pango:Noto Sans Bold 8
     # font pango:Fira Mono Bold 8
     #font pango:DejaVu Sans Mono Bold 8
@@ -414,9 +440,14 @@ bar {
     # status_command mybar-run
 
     colors {
-        statusline "#e00000"
-        focused_workspace  #000000 #800000 #bbbbbb
-        active_workspace   #000000 #5f676a #bbbbbb
+        # statusline "#e00000"
+        # statusline "#692b69"
+        statusline $pink
+        # focused_workspace  #000000 #800000 #bbbbbb
+        focused_workspace   #000000 $purple #dddddd
+        # focused_workspace   #000000 $violet #dddddd
+        # active_workspace   #000000 #5f676a #bbbbbb
+        active_workspace   #000000 $violet #bbbbbb
         inactive_workspace #000000 #000000 #bbbbbb
         urgent_workspace   #a00000 #000000 #f00000
     }
@@ -424,22 +455,21 @@ bar {
 
 
 
-# Plasma integration:
 
-##for_window [title="Desktop — Plasma"] kill, floating enable, border none
-##for_window [class="plasmashell"] floating enable
-##for_window [class="Plasma"] floating enable, border none
-##for_window [title="plasma-desktop"] floating enable, border none
-##for_window [title="win7"] floating enable, border none
-##for_window [class="krunner"] floating enable, border none
-##for_window [class="Kmix"] floating enable, border none
-##for_window [class="Klipper"] floating enable, border none
-##for_window [class="Plasmoidviewer"] floating enable, border none
-##for_window [class="(?i)*nextcloud*"] floating disable
-##for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
-##no_focus [class="plasmashell" window_type="notification"]
-##
-###for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
-##
-### Kill KDE desktop windows opened from version 5.27.2:
-##for_window [title="Desktop @ QRect"] kill; floating enable; border none
+for_window [title="Desktop — Plasma"] kill, floating enable, border none
+for_window [class="plasmashell"] floating enable
+for_window [class="Plasma"] floating enable, border none
+for_window [title="plasma-desktop"] floating enable, border none
+for_window [title="win7"] floating enable, border none
+for_window [class="krunner"] floating enable, border none
+for_window [class="Kmix"] floating enable, border none
+for_window [class="Klipper"] floating enable, border none
+for_window [class="Plasmoidviewer"] floating enable, border none
+for_window [class="(?i)*nextcloud*"] floating disable
+for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
+no_focus [class="plasmashell" window_type="notification"]
+
+#for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
+
+# Kill KDE desktop windows opened from version 5.27.2
+for_window [title="Desktop @ QRect"] kill; floating enable; border none
