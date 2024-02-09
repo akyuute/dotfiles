@@ -1,30 +1,27 @@
-# i3 config file
+# Sam's i3 config file
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 
-###### VARIABLES ######
+### Variables ###
 set $mod                        Mod4
 set $alt                        Mod1 
 
-set $brightness_dft             5%
+set $brightness_dft             3%
 set $brightness_min             1
 set $brightness_max             100%
 set $brightness_step            1%
-set $brightness_micro_step      100
+set $brightness_micro_step      10
 set $browser                    firefox
 set $browser_class              firefox
 set $browser_ws                 $ws2
-#set $compositor                 picom -f
-set $compositor                 compton -i=30
+set $compositor                 picom -i0.85 -D3
 set $menu                       rofi -show drun
-#set $menu                       dmenu_run -f
 set $dtable                     darktable
 set $dtable_class               darktable
 set $dtable_ws                  $ws5
-set $fm                         dolphin
-# set $fm                         pcmanfm
-# set $fm_class                   Pcmanfm
+set $fm                         pcmanfm
+set $fm_class                   Pcmanfm
 set $ide                        subl
 set $ide_ws                     $ws3
 set $pedit                      gimp
@@ -36,20 +33,16 @@ set $term_class                 Terminator
 ### Paths ###
 set $xkbmap                     ~/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  ~/Pictures/screenshots/
-# set $wallpaper                  ~/Pictures/colors/black.png
-set $wallpaper                  ~/Pictures/wallpapers/hieda_no_akyuu_touhou_drawn_by_a_maru.png
-
-#set $dmenufont pango:Source Code Pro Bold 9
-#set $dmenufont    "/usr/share/fonts/adobe-source-code-pro/SourceCodePro-Bold.otf"
-#set $dmenufont    "/usr/share/fonts/noto/NotoSans-Bold.ttf"
+set $wallpaper                  ~/Pictures/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.jpg
 
 ### Colors ###
 set $red #b00000 
 set $purple #692b69
 # set $purple #aa88dd
 set $pink #dd6699
-set $violet #ab22ab
+set $violet #dd5599
 #set $window_active_color $red $red $red $red
+
 
 ### Aliases ###
 set $run exec --no-startup-id
@@ -58,32 +51,58 @@ set $bg_renderer feh --bg-fill
 
 ### Autostart ###
 
-# Set xkb map
-exec --no-startup-id xkbcomp $xkbmap $DISPLAY
+# Set XKB map
+# exec_always --no-startup-id xkbcomp $xkbmap $DISPLAY
 
 # Set brightness
 exec --no-startup-id brightnessctl s 5%
+
+# Start Bluetooth manager
+exec_always --no-startup-id blueman-applet
 
 # Trackpad configurations: /etc/X11/xorg.conf.d/40-libinput.conf
 
 # [currently in ~/.xinitrc] start udiskie to automount block devices
 #exec_always udiskie -mt
 
-# Display Wallpaper
+# Display wallpaper
 exec_always --no-startup-id $bg_renderer $wallpaper 
 
-# Window Compositor
+# Window compositor
 exec_always --no-startup-id $compositor
 
 # Disable screen blanking
 exec_always --no-startup-id exec xset -dpms
 exec_always --no-startup-id exec xset s off
 
-# Hide cursor
-exec --no-startup-id unclutter --ignore-scrolling
+# Hide cursor when not in use
+exec_always --no-startup-id unclutter --ignore-scrolling
 
 
-###### DEFINE KEYBOARD SHORTCUTS #######
+### Define keyboard shortcuts ###
+
+## Launching apps:
+
+# Terminal, leaving window unfocused:
+bindsym $mod+Return $run $term
+bindsym $alt+Ctrl+t $run $term
+# and focusing the window:
+bindsym $mod+Shift+Return $run $term; workspace $ws1
+
+# Web browser, leaving window unfocused:
+bindsym $mod+w $run $browser
+# and focusing the window:
+bindsym $mod+Shift+w $run $browser; workspace $ws2
+
+# IDE, leaving window unfocused:
+bindsym $mod+period $run $ide
+# and focusing the window:
+#bindsym $mod+Shift+period $run $ide; workspace $ws3
+
+# File explorer, leaving window unfocused:
+bindsym $mod+e $run $fm
+# and focusing the window:
+bindsym $mod+shift+e $run $fm; workspace $ws4
 
 # Use amixer to adjust volume:
 bindsym XF86AudioRaiseVolume $run amixer set Master 1%+ # && ~/notify_mybar.sh
@@ -91,8 +110,8 @@ bindsym XF86AudioLowerVolume $run amixer set Master 1%- # && ~/notify_mybar.sh
 bindsym XF86AudioMute $run amixer set Master toggle # && ~/notify_mybar.sh
 
 # Control backlight brightness:
-# I also use ACPI event listeners for brightness, but
-# they do not respond to held buttons on some machines.
+# (I also use ACPI event listeners for brightness, but
+# they do not respond to held buttons on some machines.)
 bindsym XF86MonBrightnessDown $run brightnessctl s $brightness_step-
 bindsym XF86MonBrightnessUp $run brightnessctl s $brightness_step+
 bindsym Ctrl+XF86MonBrightnessDown $run brightnessctl s $brightness_micro_step-
@@ -101,60 +120,34 @@ bindsym Ctrl+XF86MonBrightnessUp $run brightnessctl s $brightness_micro_step+
 bindsym $mod+Ctrl+XF86MonBrightnessDown $run brightnessctl s $brightness_min
 bindsym $mod+Ctrl+XF86MonBrightnessUp $run brightnessctl s $brightness_max
 
-# Control music with MOC...
-#   softmixer volume
-bindsym $alt+XF86AudioRaiseVolume $run mocp -v +1
-bindsym $alt+XF86AudioLowerVolume $run mocp -v -1
-#   pause/unpause
-bindsym XF86Search $run mocp -G
-#   previous song
-bindsym XF86LaunchA $run mocp -r
-#   next song
-bindsym XF86Explorer $run mocp -f
+### Control music with MOC:
+###   softmixer volume
+##bindsym $alt+XF86AudioRaiseVolume $run mocp -v +1
+##bindsym $alt+XF86AudioLowerVolume $run mocp -v -1
+###   pause/unpause
+##bindsym XF86Search $run mocp -G
+###   previous song
+##bindsym XF86LaunchA $run mocp -r
+###   next song
+##bindsym XF86Explorer $run mocp -f
 
-# Launching apps #########
-# Launch terminal, leaving window unfocused:
-bindsym $mod+Return $run $term
-bindsym $alt+Ctrl+t $run $term
-# and focusing the window:
-bindsym $mod+Shift+Return $run $term ; workspace $ws1
 
-# Launch web browser, leaving window unfocused:
-bindsym $mod+w $run $browser
-# and focusing the window:
-bindsym $mod+Shift+w $run $browser ; workspace $ws2
-
-# Launch IDE, leaving window unfocused:
-bindsym $mod+period $run $ide
-# and focusing the window:
-#bindsym $mod+Shift+period $run $ide; workspace $ws3
-
-# Launch file explorer, leaving window unfocused:
-bindsym $mod+e $run $fm
-# and focusing the window:
-bindsym $mod+shift+e $run $fm; workspace $ws4
+## Manipulate containers:
 
 # Kill focused window
 bindsym $mod+Shift+q kill
 bindsym $alt+F4 kill
 
-# Show a program menu
+# Show an application menu
 bindsym $mod+space $run $menu
-#bindsym $mod+space exec "dmenu_run -fn $dmenufont"
 bindsym $alt+F3 $run $menu
-
-# There also is the (new) i3-dmenu-desktop which only displays applications
-# shipping a .desktop file. It is a wrapper around dmenu, so you need that
-# installed.
-# bindsym $mod+d $run i3-dmenu-desktop
 
 # Change focus
 bindsym $mod+h focus left
 bindsym $mod+j focus down
 bindsym $mod+k focus up
 bindsym $mod+l focus right
-
-# Alternatively, you can use the cursor keys:
+# Same bindings, but for the arrow keys
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -165,8 +158,7 @@ bindsym $mod+Shift+h move left 1 px
 bindsym $mod+Shift+j move down 1 px
 bindsym $mod+Shift+k move up 1 px
 bindsym $mod+Shift+l move right 1 px
-
-# Alternatively, you can use the cursor keys:
+# Same bindings, but for the arrow keys
 bindsym $mod+Shift+Left move left 1 px
 bindsym $mod+Shift+Down move down 1 px
 bindsym $mod+Shift+Up move up 1 px
@@ -211,15 +203,7 @@ bindsym $alt+Tab focus left
 bindsym $alt+Shift+Tab focus right
 
 
-########### Windows and Workspaces  ###########
-
-# Assign programs to $ws's
-#for_window [class="$term_class"]	move to workspace $ws1
-#for_window [class="$browser_class"]	move to workspace $ws2
-#for_window [class="$fm_class"]		move to workspace $ws3
-#for_window [class="$ide_class"] move to workspace $ws3
-#for_window [class=$term] move to workspace $ws2
-#for_window [class=$term] move to workspace $ws2
+### Window and workspace properties ###
 
 default_border pixel 1
 
@@ -227,11 +211,10 @@ default_border pixel 1
 #client.focused              #353439 #9FEE00 #7B9F35
 #client.unfocused            #353439 #9FEE00 #7B9F35
 #client.focused_inactive     #353439 #9FEE00 #7B9F35
-
-#client.focused          #b00000 #b00000 #b00000 #b00000
 # client.focused          $red $red $red $red
-client.focused          $pink $pink $pink $pink 
+# client.focused          $pink $pink $pink $pink 
 #client.focused          #3F8AC2 #096BAA #00BAA7 #00DA8E
+client.focused          $violet $violet $violet $violet 
 client.focused_inactive #333333 #5F676A #ffffff #484e50
 client.unfocused        #333333 #424242 #888888 #292d2e 
 client.urgent           #C10004 #900000 #ffffff #900000
@@ -241,22 +224,13 @@ workspace_auto_back_and_forth yes
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-#font pango:Noto Sans 8
-#font pango:Fira Mono Bold 8
-# font pango:Libertine Regular 8
- #font pango:Ubuntu Regular 8
 font pango:Source Code Pro Bold 10
-#font pango:DejaVu Sans Mono Bold 8
 
 # The combination of xss-lock, nm-applet and pactl is a popular choice, so
 # they are included here as an example. Modify as you see fit.
-
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
-##############$run xss-lock --transfer-sleep-lock -- i3lock --nofork###############
-
-
-
+#run xss-lock --transfer-sleep-lock -- i3lock --nofork
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
@@ -295,7 +269,6 @@ bindsym $mod+0 workspace number $ws10
 bindsym $mod+$alt+Left workspace prev
 bindsym $mod+$alt+Right workspace next
 
-
 # Move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
 bindsym $mod+Shift+2 move container to workspace number $ws2
@@ -310,19 +283,28 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 bindsym $mod+Shift+$alt+Left move container to workspace prev
 bindsym $mod+Shift+$alt+Right move container to workspace next
 
+# Assign programs to workspaces
+#for_window [class="$term_class"] move to workspace $ws1
+#for_window [class="$browser_class"] move to workspace $ws2
+#for_window [class="$fm_class"] move to workspace $ws3
+#for_window [class="$ide_class"] move to workspace $ws3
+#for_window [class=$term] move to workspace $ws2
+#for_window [class=$term] move to workspace $ws2
 
-### i3wm functions ###
+
+### Window manager functions ###
 
 # Reload the configuration file
 bindsym $mod+Shift+c reload
+
 # Restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
+
 # Exit i3 (logs you out of your X session)
 #bindsym $mod+Shift+e $run "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # Exit i3 without confirmation
 bindsym $mod+$alt+Control+Escape exit
-
 
 # Resize windows
 bindsym $mod+y resize shrink width 1 px or 1 ppt
@@ -330,14 +312,17 @@ bindsym $mod+i resize grow height 1 px or 1 ppt
 bindsym $mod+u resize shrink height 1 px or 1 ppt
 bindsym $mod+o resize grow width 1 px or 1 ppt
 
+
+### Context Menus ###
+
 # Resize window (you can also use the mouse for that)
 mode "resize" {
     # These bindings trigger as soon as you enter the resize mode
 
-    # Pressing left will shrink the window’s width.
-    # Pressing right will grow the window’s width.
-    # Pressing up will shrink the window’s height.
-    # Pressing down will grow the window’s height.
+    # Pressing H will shrink the window’s width.
+    # Pressing K will grow the window’s width.
+    # Pressing J will shrink the window’s height.
+    # Pressing L will grow the window’s height.
     bindsym h resize shrink width 1 px or 1 ppt
     bindsym k resize grow height 1 px or 1 ppt
     bindsym j resize shrink height 1 px or 1 ppt
@@ -349,7 +334,7 @@ mode "resize" {
     bindsym Up resize grow height 1 px or 1 ppt
     bindsym Right resize grow width 1 px or 1 ppt
 
-    # Back to normal: Enter or Escape or $mod+r
+    # Exit the mode:
     bindsym Return mode "default"
     bindsym Escape mode "default"
     bindsym $mod+r mode "default"
@@ -358,15 +343,8 @@ mode "resize" {
 bindsym $mod+r mode "resize"
 
 
-
-
-############### Context Menus #################
-
 # Power menu
 set $powermenu " [S]uspend|[H]ibernate|[R]eboot|[P]oweroff"
-#bindsym $mod+shift+Escape mode $powermenu
-bindsym $mod+shift+Escape exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
-
 mode $powermenu {
     bindsym p $run systemctl poweroff
     bindsym r $run systemctl reboot
@@ -374,32 +352,26 @@ mode $powermenu {
     bindsym s $run systemctl suspend; mode "default"
     #bindsym l $run 13lock -c 000a0f
 
+    # Exit the mode:
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
+bindsym $mod+shift+Escape mode $powermenu
+# bindsym $mod+shift+Escape exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
 
 
 # Use maim or scrot to take screenshots from an interactive mode.
-set $screenshotmenu ""
-bindsym $mod+shift+s mode $screenshotmenu
-
 set $get_window_id xprop -root | grep -m 1 _NET_ACTIVE_WINDOW | sed -rn 's/.* (.*)$/\1/p'
 set $get_datetime date +'%Y-%m-%d_%H-%M-%S'
-#set $cmdp1 maim -m 10 -i
 
+set $screenshotmenu ""
 mode $screenshotmenu {
-    # With maim...
+    # With maim (works better)...
     # Fullscreen shot:
-    bindsym Return $run maim -m 10 $scrot_dir/$($get_datetime).png; mode "default"
+    bindsym Return $run maim -um 10 $scrot_dir/$($get_datetime).png; mode "default"
 
     # Current focused container:
-    # "$((16#<hex>))" converts the window ID to decimal.
-    #bindsym space exec maim -m 10 -i $(( $(xprop -root | grep -m 1 _NET_ACTIVE_WINDOW | sed -rn 's/.* (.*)$/\1/p') )) $scrot_dir/$(date +'%Y-%m-%d_%H-%M-%S').png; mode "default"
-    bindsym space $run maim -m 10 -i $(( $($get_window_id) )) $scrot_dir/$($get_datetime).png; mode "default"
-
-    ##bindsym space $run $cmdp1 $(( $($get_window_id) )) $scrot_dir/test.png; mode "default"
-    ##bindsym space $run maim -m 10 -i $(( $($cmd) )) $get_filename; mode "default"
-    ##bindsym space $run bash maim -m 10 -i $(( $($get_window_id) )) $scrot_dir/test.png; mode "default"
+    bindsym space $run maim -um 10 -i $(( $($get_window_id) )) $scrot_dir/$($get_datetime).png; mode "default"
 
     # Interactive selection:
     bindsym --release l $run maim -sum 10 $scrot_dir/$($get_datetime).png; mode "default"
@@ -407,55 +379,48 @@ mode $screenshotmenu {
     # With scrot...
     # Fullscreen shot:
     #bindsym Return $run scrot -zq90 '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
+
     # Capture focused container:
     #bindsym space $run scrot -zuq90 '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
-    # Interactive rectangle:
+
+    # Interactive selection:
     #bindsym --release l exec scrot -zs -q100  '%Y-%m-%d_%H-%M-%S.png' -e 'mv $f $scrot_dir'; mode "default"
 
-    # Exit mode:
+    # Exit the mode:
     bindsym Escape mode "default"
 }
+bindsym $mod+shift+s mode $screenshotmenu
 
 
-############### i3bar #################
+### Bar ###
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-bar {
-    strip_workspace_numbers yes
-    #font pango:Source Code Pro Bold 9
-    font pango:Source Code Pro Bold 10
-    #font pango:Noto Sans Bold 8
-    # font pango:Fira Mono Bold 8
-    #font pango:DejaVu Sans Mono Bold 8
-
-    #status_command i3status 
-    #status_command ~/scripts/mybar.sh
-    #status_command mybar.sh
-    #status_command mybar
-    #status_command mybar_globals.py
-    #status_command mybar.py
-
-    status_command python -m mybar
-    # status_command mybar-run
-
-    colors {
-        # statusline "#e00000"
-        # statusline "#692b69"
-        statusline $pink
-        # focused_workspace  #000000 #800000 #bbbbbb
-        focused_workspace   #000000 $purple #dddddd
-        # focused_workspace   #000000 $violet #dddddd
-        # active_workspace   #000000 #5f676a #bbbbbb
-        active_workspace   #000000 $violet #bbbbbb
-        inactive_workspace #000000 #000000 #bbbbbb
-        urgent_workspace   #a00000 #000000 #f00000
-    }
-}
+##bar {
+##    strip_workspace_numbers yes
+##    font pango:Source Code Pro Bold 10
+##
+##    status_command python3.12 -m mybar
+##
+##    colors {
+##        statusline $violet
+##        focused_workspace   #000000 $purple #dddddd
+##        active_workspace   #000000 $violet #bbbbbb
+##        inactive_workspace #000000 #000000 #bbbbbb
+##        urgent_workspace   #a00000 #000000 #f00000
+##    }
+##}
+##
 
 
+### Gaps ###
+gaps inner 8px
+gaps bottom 0px
+smart_gaps on
 
 
+### Tweaks for KDE Plasma ###
 for_window [title="Desktop — Plasma"] kill, floating enable, border none
 for_window [class="plasmashell"] floating enable
 for_window [class="Plasma"] floating enable, border none
@@ -468,8 +433,8 @@ for_window [class="Plasmoidviewer"] floating enable, border none
 for_window [class="(?i)*nextcloud*"] floating disable
 for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
 no_focus [class="plasmashell" window_type="notification"]
-
 #for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
 
 # Kill KDE desktop windows opened from version 5.27.2
 for_window [title="Desktop @ QRect"] kill; floating enable; border none
+
