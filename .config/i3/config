@@ -12,30 +12,28 @@ set $brightness_min             1
 set $brightness_max             100%
 set $brightness_step            1%
 set $brightness_micro_step      10
+
 set $browser                    firefox
 set $browser_class              firefox
 set $browser_ws                 $ws2
 set $compositor                 picom -i0.85 -D3
 set $menu                       rofi -show drun
-set $dtable                     darktable
-set $dtable_class               darktable
-set $dtable_ws                  $ws5
 set $fm                         pcmanfm
 set $fm_class                   Pcmanfm
-set $ide                        subl
-set $ide_ws                     $ws3
-set $pedit                      gimp
-set $pedit_class                gimp
-set $pedit_ws                   $ws6
+set $fm_ws                      $ws4
 set $term                       terminator
 set $term_class                 Terminator
+set $term_ws                    $ws1
 
-### Paths ###
+set $pa_sink_default 63
+set $pa_source_default 65
+
+# Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  $HOME/Pictures/screenshots/
-set $wallpaper                  $HOME/Pictures/...
+set $wallpaper                  $HOME/Pictures/wallpapers/...
 
-### Colors ###
+# Colors
 set $red #b00000 
 set $purple #692b69
 # set $purple #aa88dd
@@ -43,8 +41,7 @@ set $pink #dd6699
 set $violet #dd5599
 #set $window_active_color $red $red $red $red
 
-
-### Aliases ###
+# Aliases
 set $run exec --no-startup-id
 set $bg_renderer feh --bg-fill
 
@@ -87,27 +84,29 @@ exec_always --no-startup-id unclutter --ignore-scrolling
 bindsym $mod+Return $run $term
 bindsym $alt+Ctrl+t $run $term
 # and focusing the window:
-bindsym $mod+Shift+Return $run $term; workspace $ws1
+bindsym $mod+Shift+Return $run $term; workspace $term_ws
 
 # Web browser, leaving window unfocused:
 bindsym $mod+w $run $browser
 # and focusing the window:
-bindsym $mod+Shift+w $run $browser; workspace $ws2
-
-# IDE, leaving window unfocused:
-bindsym $mod+period $run $ide
-# and focusing the window:
-#bindsym $mod+Shift+period $run $ide; workspace $ws3
+bindsym $mod+Shift+w $run $browser; workspace $browser_ws
 
 # File explorer, leaving window unfocused:
 bindsym $mod+e $run $fm
 # and focusing the window:
-bindsym $mod+shift+e $run $fm; workspace $ws4
+bindsym $mod+shift+e $run $fm; workspace $fm_ws
 
-# Use amixer to adjust volume:
-bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
-bindsym XF86AudioLowerVolume $run amixer set Master 1%-
-bindsym XF86AudioMute $run amixer set Master toggle
+# Use pactl to adjust volume:
+bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_sink_default +1%
+bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_sink_default -1%
+bindsym XF86AudioMute $run pactl set-sink-mute $pa_sink_default toggle
+bindsym XF86AudioMicMute $run pactl set-source-mute $pa_source_default toggle
+
+### Use amixer to adjust volume:
+##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
+##bindsym XF86AudioLowerVolume $run amixer set Master 1%-
+##bindsym XF86AudioMute $run amixer set Master toggle
+##bindsym XF86AudioMicMute $run amixer set Dmic0 toggle
 
 # Control backlight brightness:
 # (I also use ACPI event listeners for brightness, but
