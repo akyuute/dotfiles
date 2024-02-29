@@ -7,9 +7,6 @@ if [ -f /etc/bash.bashrc ]; then
 fi
 
 
-# Disable bell because beep dumb:
-set bell-style none
-
 # Check the window size after each command and,
 # if necessary, update LINES and COLUMNS values:
 shopt -s checkwinsize
@@ -42,21 +39,22 @@ green="\001$(tput setaf 2)\002"
 gray="\001$(tput setaf 0; tput bold)\002"
 red="\001$(tput setaf 1)\002"
 blue="\001$(tput setaf 4)\002"
+magenta="\001$(tput setaf 5)\002"
 dim="\001$(tput dim)\002"
 bold="\001$(tput bold)\002"
 reset="\001$(tput sgr0)\002"
 
 #PS1="$green\u@\h" # user@host
 #PS1="$bold$gray\h $reset" # hostname
-PS1="$gray@\h $reset" # @hostname
+PS1="$magenta@\h $reset" # @hostname
 PS1+="$red\W \$$reset " # working-dir $
 unset green blue dim reset
 
 
 # Double terminal font size on a MacBook with a retina display.
 # Check that we're not in an X server before attempting to run `setfont`:
-xrdb -query &> /dev/null || setfont -d lat0-16
-#xrdb -query &> /dev/null || setfont lat0-16
+#xrdb -query &> /dev/null || setfont -d lat0-16
+xrdb -query &> /dev/null || setfont lat0-16
 
 
 export PS1
