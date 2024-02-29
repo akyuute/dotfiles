@@ -28,7 +28,7 @@ set $pa_source_default 65
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  $HOME/Pictures/screenshots/
-set $wallpaper                  $HOME/Pictures/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.jpg
+set $wallpaper                  /usr/share/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.png
 
 # Colors
 set $red #b00000 
@@ -65,9 +65,11 @@ exec_always --no-startup-id $bg_renderer $wallpaper
 # Window compositor
 exec_always --no-startup-id $compositor
 
-# Disable screen blanking
-exec_always --no-startup-id exec xset -dpms
-exec_always --no-startup-id exec xset s off
+# Screen locking
+exec_always --no-startup-id xset -dpms
+exec_always --no-startup-id xset s on
+exec_always --no-startup-id xset s 600
+exec_always --no-startup-id xss-lock -- i3lock -nFi $wallpaper -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --time-color ffffff --date-color ffffff
 
 # Hide cursor when not in use
 exec_always --no-startup-id unclutter --ignore-scrolling
@@ -340,17 +342,17 @@ bindsym $mod+r mode "resize"
 
 
 # Power menu
-set $powermenu " [S]uspend|[H]ibernate|[R]eboot|[P]oweroff"
+set $powermenu " [L]ock|[S]uspend|[H]ibernate|[R]eboot|[P]oweroff"
 mode $powermenu {
     bindsym p $run systemctl poweroff
     bindsym r $run systemctl reboot
     bindsym h $run systemctl hibernate; mode "default"
     bindsym s $run systemctl suspend-then-hibernate; mode "default"
-    #bindsym l $run 13lock -c 000a0f
+    bindsym l $run loginctl lock-session
 
     # Exit the mode:
     bindsym Escape mode "default"
-    bindsym Return mode "default"
+    bindsym Return $run loginctl lock-session
 }
 bindsym $mod+shift+Escape mode $powermenu
 # bindsym $mod+shift+Escape exec --no-startup-id qdbus-qt5 org.kde.ksmserver /KSMServer org.kde.KSMServerInterface.logout -1 -1 -1
