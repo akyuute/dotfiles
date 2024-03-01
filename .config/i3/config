@@ -22,8 +22,15 @@ set $fm_class                   Pcmanfm
 set $term                       terminator
 set $term_class                 Terminator
 
-set $pa_sink_default 63
-set $pa_source_default 65
+# Description: Alder Lake PCH-P High Definition Audio Controller Speaker + Headphones
+set $pa_sink_default 'alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__sink'
+
+# Description: Alder Lake PCH-P High Definition Audio Controller Digital Microphone
+set $pa_source_default 'alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_6__source'
+
+# Description: Alder Lake PCH-P High Definition Audio Controller Headphones Stereo Microphone
+#set $pa_source_default 'alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp__source'
+
 
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
@@ -69,12 +76,13 @@ exec_always --no-startup-id xrandr --output eDP-1 --dpi 144
 # ThinkPad:
 #exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1
 #exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Natural Scrolling Enabled" 1
-#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Accel Speed" "0.5"
+#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Accel Speed" 0.5
 ##
 # HP:
 exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled Default' 1
-exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled' 1;
-exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1;
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled' 1
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Accel Speed' 0.3
 
 
 # Start udiskie to automount block devices
@@ -120,15 +128,15 @@ bindsym $mod+e $run $fm
 bindsym $mod+shift+e $run $fm; workspace $ws3
 
 # Use amixer to adjust volume:
-bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
-bindsym XF86AudioLowerVolume $run amixer set Master 1%-
-bindsym XF86AudioMute $run amixer set Master toggle
-bindsym XF86AudioMicMute $run amixer set Capture toggle
+##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
+##bindsym XF86AudioLowerVolume $run amixer set Master 1%-
+##bindsym XF86AudioMute $run amixer set Master toggle
+##bindsym XF86AudioMicMute $run amixer set Capture toggle
 # Use pactl to adjust volume:
-##bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_sink_default +1%
-##bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_sink_default -1%
-##bindsym XF86AudioMute $run pactl set-sink-mute $pa_sink_default toggle
-##bindsym XF86AudioMicMute $run pactl set-source-mute $pa_source_default toggle
+bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_sink_default +1%
+bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_sink_default -1%
+bindsym XF86AudioMute $run pactl set-sink-mute $pa_sink_default toggle
+bindsym XF86AudioMicMute $run pactl set-source-mute $pa_source_default toggle
 
 ### Use amixer to adjust volume:
 ##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
@@ -438,7 +446,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 
 ### Gaps ###
-gaps inner 8px
+gaps inner 4px
 gaps bottom 0px
 smart_gaps on
 
