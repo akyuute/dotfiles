@@ -5,7 +5,7 @@
 
 ### Variables ###
 set $mod                        Mod4
-set $alt                        Mod1 
+set $alt                        Mod1
 
 set $brightness_dft             3%
 set $brightness_min             1
@@ -22,11 +22,14 @@ set $fm_class                   Pcmanfm
 set $term                       terminator
 set $term_class                 Terminator
 
+set $pa_sink_default 63
+set $pa_source_default 65
+
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  $HOME/Pictures/screenshots/
-set $wallpaper                  /usr/share/wallpapers/Lucky_Star-Izumi_Konata.jpg
-set $lock_screen                /usr/share/wallpapers/konata_izumi_by_limitus-d6qov26.jpg
+set $lock_screen                /usr/share/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.png
+set $wallpaper                  /usr/share/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.png
 
 # Colors
 set $red #dd5544
@@ -48,6 +51,7 @@ set $bg_renderer feh --bg-fill
 
 # Set XKB map
 # exec_always --no-startup-id xkbcomp $xkbmap $DISPLAY
+bindsym $mod+$alt+k exec --no-startup-id xkbcomp $xkbmap $DISPLAY
 
 # Set brightness
 exec --no-startup-id brightnessctl s 5%
@@ -63,21 +67,21 @@ exec_always --no-startup-id xrandr --output eDP-1 --dpi 144
 #exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Accel Speed' 0.6
 ##
 # ThinkPad:
-exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1
-exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Natural Scrolling Enabled" 1
-exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Accel Speed" "0.5"
+#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1
+#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Natural Scrolling Enabled" 1
+#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Accel Speed" "0.5"
 ##
 # HP:
-#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled Default' 1
-#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled' 1;
-#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1;
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled Default' 1
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled' 1;
+exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1;
 
 
 # Start udiskie to automount block devices
 #exec_always udiskie -mt
 
 # Display wallpaper
-exec_always --no-startup-id $bg_renderer $wallpaper 
+exec_always --no-startup-id $bg_renderer $wallpaper
 
 # Window compositor
 exec_always --no-startup-id $compositor
@@ -86,7 +90,7 @@ exec_always --no-startup-id $compositor
 exec_always --no-startup-id xset -dpms
 exec_always --no-startup-id xset s on
 exec_always --no-startup-id xset s 600
-exec_always --no-startup-id xss-lock -- i3lock -nFi $lock_screen -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --{time-color,date-color}=000000 --inside-color 00000022
+exec_always --no-startup-id xss-lock -- i3lock -nFi $lock_screen -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --{time-color,date-color}=ffffff --inside-color 00000022
 
 # Hide cursor when not in use
 exec_always --no-startup-id unclutter --ignore-scrolling
@@ -233,10 +237,9 @@ default_border pixel 1
 # Border colors
 #client.focused          #353439 #9FEE00 #7B9F35
 #client.focused          #3F8AC2 #096BAA #00BAA7 #00DA8E
-# client.focused          $red $red $red $red
-client.focused          $pink $pink $pink $pink
+client.focused          $violet $violet $violet $violet
 client.focused_inactive #333333 #5F676A #ffffff #484e50
-client.unfocused        #333333 #424242 #888888 #292d2e 
+client.unfocused        #333333 #424242 #888888 #292d2e
 client.urgent           #C10004 #900000 #ffffff #900000
 
 # Workspace auto-switch
@@ -254,7 +257,7 @@ font pango:Source Code Pro Bold 10
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-#   
+#  
 set $ws1 "1:1[]"
 set $ws2 "2:2[]"
 set $ws3 "3:[3]"
@@ -435,7 +438,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 
 ### Gaps ###
-gaps inner 4px
+gaps inner 8px
 gaps bottom 0px
 smart_gaps on
 
