@@ -35,26 +35,25 @@ shopt -s histappend
 # Prompt
 
 #PS1="\e[1;30m\h\e[m \e[0;31m\W\e[0m \e[0;31m$\e[m "
-green="\001$(tput setaf 2)\002"
+green="\001$(tput setaf 10)\002"
 gray="\001$(tput setaf 0; tput bold)\002"
 red="\001$(tput setaf 1)\002"
-blue="\001$(tput setaf 4)\002"
+blue="\001$(tput setaf 39)\002"
+cyan="\001$(tput setaf 6)\002"
 magenta="\001$(tput setaf 5)\002"
 dim="\001$(tput dim)\002"
 bold="\001$(tput bold)\002"
 reset="\001$(tput sgr0)\002"
 
-#PS1="$green\u@\h" # user@host
-#PS1="$bold$gray\h $reset" # hostname
-PS1="$magenta@\h $reset" # @hostname
-PS1+="$red\W \$$reset " # working-dir $
-unset green blue dim reset
+PS1="$blue@\h $reset"  # @hostname
+PS1+="$green\W $reset$red\$$reset "  # working-dir $
+unset green gray red blue magenta dim bold reset
 
 
 # Double terminal font size on a MacBook with a retina display.
 # Check that we're not in an X server before attempting to run `setfont`:
-#xrdb -query &> /dev/null || setfont -d lat0-16
-xrdb -query &> /dev/null || setfont lat0-16
+xrdb -query &> /dev/null || setfont -d lat0-16
+# xrdb -query &> /dev/null || setfont lat0-16
 
 
 export PS1
