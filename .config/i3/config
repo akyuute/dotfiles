@@ -22,11 +22,9 @@ set $fm_class                   Pcmanfm
 set $term                       terminator
 set $term_class                 Terminator
 
-# Description: Built-in Audio Analog Stereo
-set $pa_sink_default 'alsa_output.pci-0000_00_1f.3.3.analog-stereo'
-
-# (Source) Description: Built-in Audio Analog Stereo
-set $pa_source_default 'alsa_input.pci-0000_00_1f.3.3.analog-stereo'
+# Default PulseAudio sink and source
+set $pa_default_sink $(pactl get-default-sink)
+set $pa_default_src $(pactl get-default-source)
 
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
@@ -129,10 +127,10 @@ bindsym $mod+shift+e $run $fm; workspace $ws3
 ##bindsym XF86AudioMute $run amixer set Master toggle
 ##bindsym XF86AudioMicMute $run amixer set Capture toggle
 # Use pactl to adjust volume:
-bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_sink_default +1%
-bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_sink_default -1%
-bindsym XF86AudioMute $run pactl set-sink-mute $pa_sink_default toggle
-bindsym XF86AudioMicMute $run pactl set-source-mute $pa_source_default toggle
+bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_default_sink +1%
+bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_default_sink -1%
+bindsym XF86AudioMute $run pactl set-sink-mute $pa_default_sink toggle
+bindsym XF86AudioMicMute $run pactl set-source-mute $pa_default_src toggle
 
 ### Use amixer to adjust volume:
 ##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
