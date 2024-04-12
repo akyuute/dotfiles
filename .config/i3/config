@@ -74,10 +74,6 @@ exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Acc
 ##exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1
 ##exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Accel Speed' 0.3
 
-
-# Start udiskie to automount block devices
-#exec_always udiskie -mt
-
 # Display wallpaper
 exec_always --no-startup-id $bg_renderer $wallpaper
 
@@ -88,7 +84,7 @@ exec_always --no-startup-id $compositor
 exec_always --no-startup-id xset -dpms
 exec_always --no-startup-id xset s on
 exec_always --no-startup-id xset s 600
-exec_always --no-startup-id xss-lock -- i3lock -nFi $lock_screen -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --{time-color,date-color}=000000 --inside-color 00000022
+exec_always --no-startup-id xss-lock -- i3lock -nFi $lock_screen -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --{time-color,date-color}=ffffff --inside-color 00000022
 
 # Hide cursor when not in use
 exec_always --no-startup-id unclutter --ignore-scrolling
@@ -127,12 +123,6 @@ bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $(pactl get-default-sink
 bindsym XF86AudioLowerVolume $run pactl set-sink-volume $(pactl get-default-sink) -1%
 bindsym XF86AudioMute $run pactl set-sink-mute $(pactl get-default-sink) toggle
 bindsym XF86AudioMicMute $run pactl set-source-mute $(pactl get-default-source) toggle
-
-### Use amixer to adjust volume:
-##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
-##bindsym XF86AudioLowerVolume $run amixer set Master 1%-
-##bindsym XF86AudioMute $run amixer set Master toggle
-##bindsym XF86AudioMicMute $run amixer set Dmic0 toggle
 
 # Control backlight brightness:
 # (I also use ACPI event listeners for brightness, but
@@ -435,21 +425,21 @@ gaps bottom 0px
 smart_gaps on
 
 
-### Tweaks for KDE Plasma ###
-for_window [title="Desktop — Plasma"] kill, floating enable, border none
-for_window [class="plasmashell"] floating enable
-for_window [class="Plasma"] floating enable, border none
-for_window [title="plasma-desktop"] floating enable, border none
-for_window [title="win7"] floating enable, border none
-for_window [class="krunner"] floating enable, border none
-for_window [class="Kmix"] floating enable, border none
-for_window [class="Klipper"] floating enable, border none
-for_window [class="Plasmoidviewer"] floating enable, border none
-for_window [class="(?i)*nextcloud*"] floating disable
-for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
-no_focus [class="plasmashell" window_type="notification"]
-#for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
-
-# Kill KDE desktop windows opened from version 5.27.2
-for_window [title="Desktop @ QRect"] kill; floating enable; border none
+##### Tweaks for KDE Plasma ###
+##for_window [title="Desktop — Plasma"] kill, floating enable, border none
+##for_window [class="plasmashell"] floating enable
+##for_window [class="Plasma"] floating enable, border none
+##for_window [title="plasma-desktop"] floating enable, border none
+##for_window [title="win7"] floating enable, border none
+##for_window [class="krunner"] floating enable, border none
+##for_window [class="Kmix"] floating enable, border none
+##for_window [class="Klipper"] floating enable, border none
+##for_window [class="Plasmoidviewer"] floating enable, border none
+##for_window [class="(?i)*nextcloud*"] floating disable
+##for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
+##no_focus [class="plasmashell" window_type="notification"]
+###for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
+##
+### Kill KDE desktop windows opened from version 5.27.2
+##for_window [title="Desktop @ QRect"] kill; floating enable; border none
 
