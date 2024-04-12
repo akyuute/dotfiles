@@ -1,4 +1,4 @@
-# Sam's i3 config file
+# Sam's i3 config file for Kagami (HP)
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
@@ -61,11 +61,6 @@ exec_always --no-startup-id xrandr --output eDP-1 --dpi 144
 #exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Natural Scrolling Enabled' 1
 #exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Tapping Enabled' 1
 #exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Accel Speed' 0.6
-##
-# ThinkPad:
-#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Tapping Enabled" 1
-#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Natural Scrolling Enabled" 1
-#exec_always --no-startup-id xinput set-prop "Synaptics TM3289-021" "libinput Accel Speed" 0.5
 ##
 # HP:
 exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled Default' 1
