@@ -27,7 +27,7 @@ runtime! debian.vim
 
 " If using a dark background within the editing area and syntax highlighting
 " turn on this option as well
-"set background=dark
+set background=dark
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
@@ -125,7 +125,7 @@ set softtabstop=4
 set showmatch
 
 " enable all Python syntax highlighting features
-"let python_highlight_all = 1
+let python_highlight_all = 1
 
 " show formatting characters
 set list
@@ -195,7 +195,7 @@ cnoremap <Right> <Space><BS><Right>
 
 " Automate filetype-specific comment insertion
 
-let g:COMMENTS = { 'python': '# ', 'sh': '# ', 'c': '// ', 'cpp': '// ', 'javascript': '// ', 'java': '// ', 'rust': '// ', 'html': '<-- ', 'xml': '<-- ', 'sql': '-- ', 'vim': '\"' , }
+let g:COMMENTS = { 'python': '# ', 'sh': '# ', 'c': '\/\/ ', 'cpp': '\/\/ ', 'javascript': '\/\/ ', 'java': '\/\/ ', 'rust': '\/\/ ', 'html': '<-- ', 'xml': '<-- ', 'sql': '-- ', 'vim': '\"' , }
 let g:HASH_COMMENTS  = ['python', 'sh', 'zsh', 'perl', 'ruby', ]
 let g:SLASH_COMMENTS = ['c', 'cpp', 'js', 'java', 'rust', ]
 let g:ML_COMMENTS    = ['html', 'xml', ]
@@ -232,6 +232,7 @@ inoremap <silent> <C-_> <C-o>:call InsertComment() <CR>
 " For now, link Search group to Todo :
 hi link Search Todo
 
+
 " A custom statusline
 "hi CustomStatusline cterm=bold ctermfg=white ctermbg=darkred
 hi CustomStatusline cterm=bold ctermfg=15 ctermbg=8
@@ -254,3 +255,11 @@ abbr im import
 abbr def_ def foo(self,<CR><BS>bar,<CR><BS><BS>) -> None:
 abbr ini_ def __init__(<CR><BS>self,<CR>foo,<CR><BS>) -> None:
 
+
+" hnei = hjkl for Colemak
+"nnoremap n j
+"nnoremap j n
+"nnoremap e k
+"nnoremap k e
+"nnoremap i l
+"nnoremap l i
