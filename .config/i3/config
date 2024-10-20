@@ -5,7 +5,7 @@
 
 ### Variables ###
 set $mod                        Mod4
-set $alt                        Mod1 
+set $alt                        Mod1
 
 set $brightness_dft             3%
 set $brightness_min             1
@@ -17,26 +17,27 @@ set $browser                    firefox
 set $browser_class              firefox
 set $compositor                 picom -i0.85 -D3
 set $menu                       rofi -show drun
-set $fm                         pcmanfm
-set $fm_class                   Pcmanfm
+set $fm                         dolphin
+set $fm_class                   Dolphin
 set $term                       terminator
 set $term_class                 Terminator
-
-set $pa_sink_default 63
-set $pa_source_default 65
 
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
 set $scrot_dir                  $HOME/Pictures/screenshots/
+set $lock_screen                /usr/share/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.png
 set $wallpaper                  /usr/share/wallpapers/hiiragi_kagami_lucky_star_drawn_by_ichimi_renge.png
 
 # Colors
-set $red #b00000 
+set $red #dd5544
+# set $red #b00000
+set $blue #22ee99
+set $green #99dd33
+# set $green #99cc22
 set $purple #692b69
 # set $purple #aa88dd
 set $pink #dd6699
 set $violet #dd5599
-#set $window_active_color $red $red $red $red
 
 # Aliases
 set $run exec --no-startup-id
@@ -46,33 +47,49 @@ set $bg_renderer feh --bg-fill
 ### Autostart ###
 
 # Set XKB map
-# exec_always --no-startup-id xkbcomp $xkbmap $DISPLAY
+bindsym $mod+$alt+k exec --no-startup-id xkbcomp $xkbmap $DISPLAY
 
 # Set brightness
 exec --no-startup-id brightnessctl s 5%
 
-# Start Bluetooth manager
-exec_always --no-startup-id blueman-applet
 
-# Trackpad configurations: /etc/X11/xorg.conf.d/40-libinput.conf
+# Screen layout
+set $left_screen eDP-1
+set $right_screen HDMI-1
+workspace 1 output $left_screen
 
-# [currently in $HOME/.xinitrc] start udiskie to automount block devices
-#exec_always udiskie -mt
+# Set trackpad and scroll behavior using xinput:
+##
+# MacBook:
+#exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Natural Scrolling Enabled' 1
+#exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Tapping Enabled' 1
+#exec_always --no-startup-id xinput set-prop 'bcm5974' 'libinput Accel Speed' 0.6
+##
+# HP:
+#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled Default' 1
+#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Tapping Enabled' 1
+#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Natural Scrolling Enabled' 1
+#exec_always --no-startup-id xinput set-prop 'SYNA30D9:00 06CB:CEA4 Touchpad' 'libinput Accel Speed' 0.3
+
 
 # Display wallpaper
-exec_always --no-startup-id $bg_renderer $wallpaper 
+exec_always --no-startup-id $bg_renderer $wallpaper
 
 # Window compositor
 exec_always --no-startup-id $compositor
 
 # Screen locking
-exec_always --no-startup-id xset -dpms
-exec_always --no-startup-id xset s on
-exec_always --no-startup-id xset s 600
-exec_always --no-startup-id xss-lock -- i3lock -nFi $wallpaper -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --time-color ffffff --date-color ffffff
+exec --no-startup-id xset -dpms
+exec --no-startup-id xset s on
+exec --no-startup-id xset s 600
+# exec --no-startup-id xss-lock -- i3lock -nFi $lock_screen -k --date-str="%Y-%m-%d" --pass-{media,screen,power,volume}-keys --{time-color,date-color}=ffffff --inside-color 00000022
+# exec --no-startup-id xset s off
 
 # Hide cursor when not in use
 exec_always --no-startup-id unclutter --ignore-scrolling
+
+# Start Bluetooth manager
+exec_always --no-startup-id blueman-applet
 
 
 ### Define keyboard shortcuts ###
@@ -96,16 +113,10 @@ bindsym $mod+e $run $fm
 bindsym $mod+shift+e $run $fm; workspace $ws3
 
 # Use pactl to adjust volume:
-bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $pa_sink_default +1%
-bindsym XF86AudioLowerVolume $run pactl set-sink-volume $pa_sink_default -1%
-bindsym XF86AudioMute $run pactl set-sink-mute $pa_sink_default toggle
-bindsym XF86AudioMicMute $run pactl set-source-mute $pa_source_default toggle
-
-### Use amixer to adjust volume:
-##bindsym XF86AudioRaiseVolume $run amixer set Master 1%+
-##bindsym XF86AudioLowerVolume $run amixer set Master 1%-
-##bindsym XF86AudioMute $run amixer set Master toggle
-##bindsym XF86AudioMicMute $run amixer set Dmic0 toggle
+bindsym XF86AudioRaiseVolume $run pactl set-sink-volume $(pactl get-default-sink) +1%
+bindsym XF86AudioLowerVolume $run pactl set-sink-volume $(pactl get-default-sink) -1%
+bindsym XF86AudioMute $run pactl set-sink-mute $(pactl get-default-sink) toggle
+bindsym XF86AudioMicMute $run pactl set-source-mute $(pactl get-default-source) toggle
 
 # Control backlight brightness:
 # (I also use ACPI event listeners for brightness, but
@@ -206,15 +217,11 @@ bindsym $alt+Shift+Tab focus right
 default_border pixel 1
 
 # Border colors
-#client.focused              #353439 #9FEE00 #7B9F35
-#client.unfocused            #353439 #9FEE00 #7B9F35
-#client.focused_inactive     #353439 #9FEE00 #7B9F35
-# client.focused          $red $red $red $red
-# client.focused          $pink $pink $pink $pink 
+#client.focused          #353439 #9FEE00 #7B9F35
 #client.focused          #3F8AC2 #096BAA #00BAA7 #00DA8E
-client.focused          $violet $violet $violet $violet 
+client.focused          $violet $violet $violet $violet
 client.focused_inactive #333333 #5F676A #ffffff #484e50
-client.unfocused        #333333 #424242 #888888 #292d2e 
+client.unfocused        #333333 #424242 #888888 #292d2e
 client.urgent           #C10004 #900000 #ffffff #900000
 
 # Workspace auto-switch
@@ -224,15 +231,9 @@ workspace_auto_back_and_forth yes
 # is used in the bar {} block below.
 font pango:Source Code Pro Bold 10
 
-# The combination of xss-lock, nm-applet and pactl is a popular choice, so
-# they are included here as an example. Modify as you see fit.
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-#run xss-lock --transfer-sleep-lock -- i3lock --nofork
-
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-#   
+#  
 set $ws1 "1:1[]"
 set $ws2 "2:2[]"
 set $ws3 "3:[3]"
@@ -348,7 +349,7 @@ mode $powermenu {
     bindsym r $run systemctl reboot
     bindsym h $run systemctl hibernate; mode "default"
     bindsym s $run systemctl suspend-then-hibernate; mode "default"
-    bindsym l $run loginctl lock-session
+    bindsym l $run loginctl lock-session; mode "default"
 
     # Exit the mode:
     bindsym Escape mode "default"
@@ -413,26 +414,26 @@ exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 
 ### Gaps ###
-gaps inner 8px
+gaps inner 4px
 gaps bottom 0px
 smart_gaps on
 
 
-### Tweaks for KDE Plasma ###
-for_window [title="Desktop — Plasma"] kill, floating enable, border none
-for_window [class="plasmashell"] floating enable
-for_window [class="Plasma"] floating enable, border none
-for_window [title="plasma-desktop"] floating enable, border none
-for_window [title="win7"] floating enable, border none
-for_window [class="krunner"] floating enable, border none
-for_window [class="Kmix"] floating enable, border none
-for_window [class="Klipper"] floating enable, border none
-for_window [class="Plasmoidviewer"] floating enable, border none
-for_window [class="(?i)*nextcloud*"] floating disable
-for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
-no_focus [class="plasmashell" window_type="notification"]
-#for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
-
-# Kill KDE desktop windows opened from version 5.27.2
-for_window [title="Desktop @ QRect"] kill; floating enable; border none
+##### Tweaks for KDE Plasma ###
+##for_window [title="Desktop — Plasma"] kill, floating enable, border none
+##for_window [class="plasmashell"] floating enable
+##for_window [class="Plasma"] floating enable, border none
+##for_window [title="plasma-desktop"] floating enable, border none
+##for_window [title="win7"] floating enable, border none
+##for_window [class="krunner"] floating enable, border none
+##for_window [class="Kmix"] floating enable, border none
+##for_window [class="Klipper"] floating enable, border none
+##for_window [class="Plasmoidviewer"] floating enable, border none
+##for_window [class="(?i)*nextcloud*"] floating disable
+##for_window [class="plasmashell" window_type="notification"] floating enable, border none, move right 700px, move down 450px
+##no_focus [class="plasmashell" window_type="notification"]
+###for_window [class="plasmashell" window_type="notification"] floating enable, border none, move position 1450px 20px
+##
+### Kill KDE desktop windows opened from version 5.27.2
+##for_window [title="Desktop @ QRect"] kill; floating enable; border none
 
