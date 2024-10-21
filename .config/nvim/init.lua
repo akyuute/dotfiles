@@ -1,6 +1,4 @@
 require("core.options") -- Load general options
---require 'core.keymaps' -- Load general keymaps
-require("core.snippets") -- Custom code snippets
 
 -- Set up the Lazy plugin manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
@@ -17,27 +15,17 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	require("plugins.mine"),
 	-- require 'plugins.neotree',
-	-- require 'plugins.colortheme',
-	-- require 'plugins.bufferline',
-	-- require 'plugins.lualine',
 	require("plugins.treesitter"),
 	require("plugins.telescope"),
 	require("plugins.lsp"),
 	require("plugins.autocompletion"),
-	-- require("plugins.none-ls"),
 	require("plugins.gitsigns"),
 	require("plugins.alpha"),
-	-- require 'plugins.indent-blankline',
-	-- require 'plugins.misc',
-	-- require 'plugins.comment',
-	{
-		"numToStr/Comment.nvim",
-	},
 })
 
 -- Bind ^/ to toggle comment
 local api = require("Comment.api")
-vim.keymap.set("n", "<C-_>", api.toggle.linewise.current)
+vim.keymap.set("n", "<C-/>", api.toggle.linewise.current)
 -- Disable autocomment
 vim.api.nvim_create_autocmd("FileType", {
 	pattern = "*",
@@ -45,6 +33,3 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.formatoptions:remove({ "r", "o" })
 	end,
 })
-
--- The line beneath this is called `modeline`. See `:help modeline`
--- vim: ts=2 sts=2 sw=2 et
