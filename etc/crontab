@@ -1,0 +1,2 @@
+@reboot systemctl start reflector.timer
+@hourly systemctl start reflector.timer
