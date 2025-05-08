@@ -1,1 +1,1 @@
-# Sam's Dotfiles
+# Samantha's Dotfiles
