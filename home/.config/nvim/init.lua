@@ -13,15 +13,18 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Set up plugins
 require("lazy").setup({
-	require("plugins.mine"),
-	-- require 'plugins.neotree',
+	require("plugins.neotree"),
 	require("plugins.treesitter"),
 	require("plugins.telescope"),
 	require("plugins.lsp"),
 	require("plugins.autocompletion"),
 	require("plugins.gitsigns"),
 	require("plugins.alpha"),
+	require("plugins.mine"),
 })
+
+-- Window transparency
+vim.g.transparent_enabled = true
 
 -- Bind ^/ to toggle comment
 local api = require("Comment.api")
