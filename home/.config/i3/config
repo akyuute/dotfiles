@@ -17,10 +17,10 @@ set $browser                    firefox
 set $browser_class              firefox
 set $compositor                 picom -i0.85 -D3
 set $menu                       rofi -show drun
-set $fm                         pcmanfm
-set $fm_class                   Pcmanfm
-set $term                       terminator
-set $term_class                 Terminator
+set $fm                         dolphin
+set $fm_class                   Dolphin
+set $term                       kitty
+set $term_class                 kitty
 
 # Paths
 set $xkbmap                     $HOME/.xkb/vimkeys_LWIN_and_TLDE_to_Super.xkb
